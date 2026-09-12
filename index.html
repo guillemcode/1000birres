@@ -74,7 +74,7 @@
             border-radius: 8px;
             flex: 1; /* Fan que totes ocupin el mateix ample */
             text-align: center;
-            border: 2ch solid #f39c12;
+            border: 2px solid #f39c12;
             box-shadow: 0 4px 6px rgba(0,0,0,0.5);
         }
 
@@ -112,12 +112,22 @@
             font-size: 1em;
             color: white;
             margin-bottom: 10px;
+            text-align: left;
         }
 
         .pred-ritme {
             font-size: 1.5em;
             line-height: 1.5;
             color: #e0e0e0;
+            text-align: left; /* Mantenim a l'esquerra */
+        }
+
+        /* Nova classe per centrar la data i els números */
+        .pred-destacat {
+            display: block;
+            text-align: center;
+            margin-top: 15px;
+            color: #ffffff;
         }
 
         /* Gràfiques */
@@ -182,7 +192,7 @@
     <!-- Gràfiques Separades -->
     <div class="charts-container">
         <div class="chart-wrapper">
-            <h3>Evolució de Birres per Dia</h3>
+            <h3>Birres cada Dijous</h3>
             <canvas id="dailyChart"></canvas>
         </div>
         <div class="chart-wrapper">
@@ -196,7 +206,7 @@
         // -------------------------------------------------------------
         // ARRAY PER ACTUALITZAR (Afegir les birres separades per comes)
         // -------------------------------------------------------------
-        const beersData = [29, 32, 30, 31, 24, 34, 0 , 0, 27, 35]; 
+        const beersData = [29, 32, 30, 31, 24, 34, 0, 0, 27, 35]; 
         
         const START_DATE = new Date('2026-09-03T00:00:00');
 
@@ -259,11 +269,13 @@
             weeksNeeded = Math.ceil(remaining / avgBirres);
             finalIndex = beersData.length + weeksNeeded - 1;
             const finalDate = getThursdayDate(finalIndex);
-            finalBeers = 1000 - remaining + avgBirres * weeksNeeded;
+            // Format sense decimals per quedar més net en aquesta vista
+            const finalBeers = Math.round(1000 - remaining + (avgBirres * weeksNeeded));
             
             predFalten.innerText = `Falten: ${remaining} birres`;
-            // Com que és el repte de les 1000, un cop acabat el dia final s'arriba exactament a aquest total mínim
-            predRitme.innerHTML = `Acabarem el: <strong>${finalDate}</strong>, fent <strong>${finalBeers}</strong> birres en total.`;
+            
+            // Aquí apliquem la classe nova per centrar només el dia i el resultat
+            predRitme.innerHTML = `Acabarem el: <span class="pred-destacat"><strong>${finalDate}</strong>, fent <strong>${finalBeers}</strong> birres en total.</span>`;
         } else {
             predFalten.innerText = "Falten: 1000 birres";
             predRitme.innerText = "Comenceu a beure per calcular la predicció!";
