@@ -149,6 +149,12 @@
             color: #aaaaaa;
             text-align: center;
         }
+
+        .final-text {
+            padding: 8px;
+            color: #aaaaaa;
+            font-size: 0.75em;
+        }
     </style>
 </head>
 <body>
@@ -206,9 +212,13 @@
         </div>
     </div>
 
-    Aquesta web és propietat de Guillem Coderch. Qualsevol ús indegut serà sancionat pel pel decret llei 13.12 subsecció 4.20.
+    <div>
+        Aquesta web és propietat de Guillem Coderch. Qualsevol ús indegut serà sancionat pel decret llei 13.12 subsecció 4.20 i mogudes d'aquestes de copyright®.
+    </div>
 
-    Aqauesta web no promou el consum d'alcohol, només el trackeja hehe.
+    <div>
+        Aquesta web no promou el consum d'alcohol, només el trackeja hehe.
+    </div>
 
     <!-- LÒGICA JAVASCRIPT -->
     <script>
@@ -286,7 +296,7 @@
             predFalten.innerText = `Falten: ${remaining} birres`;
             
             // Aquí apliquem la classe nova per centrar només el dia i el resultat
-            predRitme.innerHTML = `Acabarem el: <span class="pred-destacat"><strong>${finalDate}</strong>,</span> fent <span class="pred-destacat"><strong>${finalBeers}</strong></span> birres en total si seguim així.`;
+            predRitme.innerHTML = `Acabarem el: <span class="pred-destacat"><strong>${finalDate}</strong>,</span> fent <span class="pred-destacat"><strong>${finalBeers} birres</strong></span> en total si seguim així.`;
         } else {
             predFalten.innerText = "Falten: 1000 birres";
             predRitme.innerText = "Comenceu a beure per calcular la predicció!";
