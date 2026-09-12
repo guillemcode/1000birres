@@ -154,16 +154,16 @@
 <body>
 
     <div class="header-container">
-        <h1>1000 birres 🍻</h1>
-        <div id="week-counter" class="week-counter">Setmana -</div>
+        <h1>1000 birres</h1>
+        <div id="week-counter" class="week-counter">·#· Setmana - ·#·</div>
     </div>
     <hr>
 
     <div class="hero-section">
-        <div class="total-title">TOTAL</div>
+        <div class="total-title">TOTAL:</div>
         <div class="total-number-container">
             <div id="total-counter" class="total-number">0</div>
-            <div class="total-suffix">birres🍻</div>
+            <div class="total-suffix">birres 🍻</div>
         </div>
     </div>
 
@@ -205,6 +205,10 @@
             </div>
         </div>
     </div>
+
+    Aquesta web és propietat de Guillem Coderch. Qualsevol ús indegut serà sancionat pel pel decret llei 13.12 subsecció 4.20.
+
+    Aqauesta web no promou el consum d'alcohol, només el trackeja hehe.
 
     <!-- LÒGICA JAVASCRIPT -->
     <script>
@@ -282,7 +286,7 @@
             predFalten.innerText = `Falten: ${remaining} birres`;
             
             // Aquí apliquem la classe nova per centrar només el dia i el resultat
-            predRitme.innerHTML = `Acabarem el: <span class="pred-destacat"><strong>${finalDate}</strong>,</span> fent <span class="pred-destacat"><strong>${finalBeers}</strong></span> birres en total.`;
+            predRitme.innerHTML = `Acabarem el: <span class="pred-destacat"><strong>${finalDate}</strong>,</span> fent <span class="pred-destacat"><strong>${finalBeers}</strong></span> birres en total si seguim així.`;
         } else {
             predFalten.innerText = "Falten: 1000 birres";
             predRitme.innerText = "Comenceu a beure per calcular la predicció!";
