@@ -74,7 +74,7 @@
             border-radius: 8px;
             flex: 1; /* Fan que totes ocupin el mateix ample */
             text-align: center;
-            border-top: 3px solid #f39c12;
+            border: 2ch solid #f39c12;
             box-shadow: 0 4px 6px rgba(0,0,0,0.5);
         }
 
@@ -256,13 +256,14 @@
             predFalten.style.color = "#2ecc71";
             predRitme.innerText = `Heu aconseguit arribar a les 1000 birres en ${beersData.length} setmanes!`;
         } else if (avgBirres > 0) {
-            weeksNeeded = Math.ceil(remaining / avgBirres); 
+            weeksNeeded = Math.ceil(remaining / avgBirres);
             finalIndex = beersData.length + weeksNeeded - 1;
             const finalDate = getThursdayDate(finalIndex);
+            finalBeers = 1000 - remaining + avgBirres * weeksNeeded;
             
             predFalten.innerText = `Falten: ${remaining} birres`;
             // Com que és el repte de les 1000, un cop acabat el dia final s'arriba exactament a aquest total mínim
-            predRitme.innerHTML = `Al ritme que anem, acabarem el: <strong>${finalDate}</strong>, fent <strong>1000</strong> birres en total.`;
+            predRitme.innerHTML = `Acabarem el: <strong>${finalDate}</strong>, fent <strong>${finalBeers}</strong> birres en total.`;
         } else {
             predFalten.innerText = "Falten: 1000 birres";
             predRitme.innerText = "Comenceu a beure per calcular la predicció!";
@@ -275,7 +276,7 @@
         let tempAcumulat = 0;
 
         // Bucle des del dia 0 fins al dia final teòric (si encara no s'ha arribat)
-        const totalDiasGràfica = (remaining > 0 && avgBirres > 0) ? finalIndex + 1 : beersData.length;
+        const totalDiasGràfica = beersData.length;
 
         for (let i = 0; i < totalDiasGràfica; i++) {
             labels.push(getThursdayDate(i));
