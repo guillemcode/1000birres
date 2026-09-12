@@ -200,7 +200,9 @@
         </div>
         <div class="chart-wrapper">
             <h3>Acumulat Total</h3>
-            <canvas id="cumulativeChart"></canvas>
+            <div style="position: relative; height: 350px; width: 100%;">
+                <canvas id="cumulativeChart"></canvas>
+            </div>
         </div>
     </div>
 
@@ -209,7 +211,7 @@
         // -------------------------------------------------------------
         // ARRAY PER ACTUALITZAR (Afegir les birres separades per comes)
         // -------------------------------------------------------------
-        const beersData = [29, 32, 30, 31, 24, 34, 0, 0, 27, 35]; 
+        const beersData = [29, 32]; 
         
         const START_DATE = new Date('2026-09-03T00:00:00');
 
@@ -444,7 +446,10 @@
                     }
                 ]
             },
-            options: commonOptions
+            options: {
+                ...commonOptions,
+                maintainAspectRatio: false
+            }
         });
     </script>
 </body>
