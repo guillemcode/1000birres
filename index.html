@@ -290,21 +290,27 @@
         let labels = [];
         let dailyData = [];
         let cumulativeData = [];
+        
+        // NOUS ARRAYS PER LES LÍNIES DE REFERÈNCIA
+        let avgData = [];
+        let goalData = [];
+        
         let tempAcumulat = 0;
 
-        // Bucle des del dia 0 fins al dia final teòric (si encara no s'ha arribat)
         const totalDiasGràfica = beersData.length;
 
         for (let i = 0; i < totalDiasGràfica; i++) {
             labels.push(getThursdayDate(i));
             
+            // Omplim les línies de referència amb els valors fixos per a cada punt
+            avgData.push(avgBirres);
+            goalData.push(1000);
+            
             if (i < beersData.length) {
-                // Dies reals
                 dailyData.push(beersData[i]);
                 tempAcumulat += beersData[i];
                 cumulativeData.push(tempAcumulat);
             } else {
-                // Dies futurs: posem 'null' perquè no es dibuixi la línia però l'eix de temps sí que hi sigui
                 dailyData.push(null);
                 cumulativeData.push(null);
             }
