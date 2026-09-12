@@ -17,7 +17,7 @@
 
         /* Capçalera a l'esquerra */
         h1 {
-            font-size: 2em;
+            font-size: 1.75em;
             margin: 0 0 10px 0;
             color: #f39c12; /* Color cervesa */
             text-align: left;
@@ -53,7 +53,6 @@
             font-size: 5.5em; /* Més petit per cabre a mòbils */
             font-weight: bold;
             color: #ffffff;
-            text-shadow: 0 0 15px rgba(243, 156, 18, 0.5);
         }
 
         .total-suffix {
@@ -105,20 +104,18 @@
             background: #1a1a1a;
             padding: 20px;
             border-radius: 8px;
-            border-left: 4px solid #f39c12;
             margin-bottom: 35px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.5);
         }
 
         .pred-falten {
-            font-size: 1.5em;
-            font-weight: bold;
-            color: #f39c12;
+            font-size: 1em;
+            color: white;
             margin-bottom: 10px;
         }
 
         .pred-ritme {
-            font-size: 1em;
+            font-size: 1.5em;
             line-height: 1.5;
             color: #e0e0e0;
         }
@@ -130,7 +127,7 @@
 
         .chart-wrapper {
             background: #1e1e1e;
-            padding: 15px;
+            padding: 8px;
             border-radius: 8px;
             margin-bottom: 25px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.5);
@@ -167,7 +164,7 @@
         <div class="stat-box">
             <h3>Mitjana</h3>
             <p id="avg-beers">0</p>
-            <span class="stat-date">birres/dia</span>
+            <span class="stat-date">birres/dijous</span>
         </div>
         <div class="stat-box">
             <h3>Día ⬇️</h3>
@@ -199,7 +196,7 @@
         // -------------------------------------------------------------
         // ARRAY PER ACTUALITZAR (Afegir les birres separades per comes)
         // -------------------------------------------------------------
-        const beersData = [29, 32]; 
+        const beersData = [29, 32, 30, 31, 24, 34, 0 , 0, 27, 35]; 
         
         const START_DATE = new Date('2026-09-03T00:00:00');
 
