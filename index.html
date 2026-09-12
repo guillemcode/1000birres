@@ -4,134 +4,150 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>1000 Birres 🍻</title>
-    <!-- Importem la llibreria Chart.js per fer les gràfiques -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* ESTILS CSS (Mode fosc) */
+        /* ESTILS CSS (Mòbil First / Mode fosc) */
         body {
             background-color: #121212;
             color: #ffffff;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px 10px;
-            text-align: center;
+            padding: 15px; /* Padding pensat per a mòbil */
         }
 
+        /* Capçalera a l'esquerra */
         h1 {
-            font-size: 3.5em;
-            margin-top: 10px;
-            margin-bottom: 20px;
-            color: #f39c12; /* Color daurat/cervesa */
+            font-size: 2em;
+            margin: 0 0 10px 0;
+            color: #f39c12; /* Color cervesa */
+            text-align: left;
         }
 
+        hr {
+            border: 0;
+            border-top: 1px solid #333;
+            margin-bottom: 25px;
+        }
+
+        /* Secció del total (es manté centrada perquè quedi espectacular) */
         .hero-section {
-            margin: 40px 0;
+            text-align: center;
+            margin-bottom: 30px;
         }
 
         .total-title {
-            font-size: 1.5em;
+            font-size: 1.2em;
             color: #aaaaaa;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             font-weight: bold;
-            margin-bottom: -10px;
         }
 
         .total-number-container {
             display: flex;
             align-items: baseline;
             justify-content: center;
-            gap: 15px;
+            gap: 10px;
         }
 
         .total-number {
-            font-size: 8em;
+            font-size: 5.5em; /* Més petit per cabre a mòbils */
             font-weight: bold;
             color: #ffffff;
             text-shadow: 0 0 15px rgba(243, 156, 18, 0.5);
         }
 
         .total-suffix {
-            font-size: 2.5em;
+            font-size: 1.5em;
             color: #f39c12;
         }
 
+        /* Caixes d'estadístiques: adaptades a una sola línia */
         .stats-container {
             display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            margin-bottom: 50px;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 30px;
         }
 
         .stat-box {
             background: #1e1e1e;
-            padding: 25px 20px;
-            border-radius: 12px;
-            width: 260px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-            border-top: 4px solid #f39c12;
+            padding: 12px 5px;
+            border-radius: 8px;
+            flex: 1; /* Fan que totes ocupin el mateix ample */
+            text-align: center;
+            border-top: 3px solid #f39c12;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
         }
 
         .stat-box h3 {
-            margin: 0 0 10px 0;
+            margin: 0 0 8px 0;
             color: #aaaaaa;
-            font-size: 1.1em;
-            text-transform: uppercase;
+            font-size: 0.8em; /* Text petit per cabre */
+            white-space: nowrap;
         }
 
         .stat-box p {
-            font-size: 2em;
+            font-size: 1.4em;
             font-weight: bold;
             margin: 0;
+            color: #fff;
         }
 
         .stat-date {
-            font-size: 0.9em;
+            font-size: 0.65em;
             color: #888;
-            margin-top: 8px;
+            margin-top: 5px;
             display: block;
         }
 
-        .charts-container {
-            max-width: 900px;
-            margin: 0 auto 50px auto;
-            background: #1e1e1e;
-            padding: 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
-        }
-
+        /* Predicció simplificada */
         .prediction-container {
-            margin: 50px auto;
-            padding: 30px;
             background: #1a1a1a;
-            max-width: 800px;
-            border-radius: 12px;
-            border: 2px dashed #f39c12;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #f39c12;
+            margin-bottom: 35px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
         }
 
-        .prediction-container h2 {
-            margin-top: 0;
+        .pred-falten {
+            font-size: 1.5em;
+            font-weight: bold;
             color: #f39c12;
-            font-size: 1.8em;
+            margin-bottom: 10px;
         }
 
-        .prediction-text {
-            font-size: 1.2em;
-            line-height: 1.6;
+        .pred-ritme {
+            font-size: 1em;
+            line-height: 1.5;
             color: #e0e0e0;
         }
-        
-        .highlight {
-            color: #f39c12;
-            font-weight: bold;
-            font-size: 1.2em;
+
+        /* Gràfiques */
+        .charts-container {
+            margin-bottom: 40px;
+        }
+
+        .chart-wrapper {
+            background: #1e1e1e;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+        }
+
+        .chart-wrapper h3 {
+            margin: 0 0 15px 0;
+            font-size: 1em;
+            color: #aaaaaa;
+            text-align: center;
         }
     </style>
 </head>
 <body>
 
     <h1>1000 birres 🍻</h1>
+    <hr>
 
     <div class="hero-section">
         <div class="total-title">TOTAL</div>
@@ -141,68 +157,69 @@
         </div>
     </div>
 
+    <!-- Les 3 caixes en una línia -->
     <div class="stats-container">
         <div class="stat-box">
-            <h3>Dia amb més birres 🏆</h3>
+            <h3>Día 🔝</h3>
             <p id="max-beers">0</p>
             <span id="max-date" class="stat-date">-</span>
         </div>
         <div class="stat-box">
-            <h3>Mitjana per dijous 📊</h3>
+            <h3>Mitjana</h3>
             <p id="avg-beers">0</p>
-            <span class="stat-date">birres / dia</span>
+            <span class="stat-date">birres/dia</span>
         </div>
         <div class="stat-box">
-            <h3>Dia amb menys birres 📉</h3>
+            <h3>Día ⬇️</h3>
             <p id="min-beers">0</p>
             <span id="min-date" class="stat-date">-</span>
         </div>
     </div>
 
-    <div class="charts-container">
-        <canvas id="birresChart"></canvas>
+    <!-- Predicció senzilla -->
+    <div class="prediction-container">
+        <div id="pred-falten" class="pred-falten">Calculant...</div>
+        <div id="pred-ritme" class="pred-ritme"></div>
     </div>
 
-    <div class="prediction-container">
-        <h2>Quan s'acaba el repte? ⏳</h2>
-        <div id="prediction-text" class="prediction-text">
-            Calculant dades...
+    <!-- Gràfiques Separades -->
+    <div class="charts-container">
+        <div class="chart-wrapper">
+            <h3>Evolució de Birres per Dia</h3>
+            <canvas id="dailyChart"></canvas>
+        </div>
+        <div class="chart-wrapper">
+            <h3>Acumulat Total</h3>
+            <canvas id="cumulativeChart"></canvas>
         </div>
     </div>
 
     <!-- LÒGICA JAVASCRIPT -->
     <script>
         // -------------------------------------------------------------
-        // AQUEST ÉS L'ARRAY QUE HAS D'ANAR ACTUALITZANT CADA DIJOUS
+        // ARRAY PER ACTUALITZAR (Afegir les birres separades per comes)
         // -------------------------------------------------------------
-        const beersData = [29, 32]; // Ex: 45 el dia 3/09/2026, 52 el 10/09/2026.
+        const beersData = [29, 32]; 
         
         const START_DATE = new Date('2026-09-03T00:00:00');
 
-        // Funció per calcular la data de cada dijous sumant setmanes
         function getThursdayDate(indexOffset) {
             const d = new Date(START_DATE);
             d.setDate(d.getDate() + (indexOffset * 7));
             return d.toLocaleDateString('ca-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
         }
 
-        // Variables per als càlculs
         let totalBirres = 0;
         let maxBirres = -1;
         let maxIndex = 0;
         let minBirres = Infinity;
         let minIndex = 0;
-        
-        let cumulativeData = [];
-        let labels = [];
 
-        // Processar dades
+        // Processar dades base
         for (let i = 0; i < beersData.length; i++) {
             const b = beersData[i];
             totalBirres += b;
-            cumulativeData.push(totalBirres);
-            labels.push(getThursdayDate(i));
-
+            
             if (b > maxBirres) {
                 maxBirres = b;
                 maxIndex = i;
@@ -214,8 +231,9 @@
         }
 
         const avgBirres = (totalBirres / beersData.length) || 0;
+        const remaining = 1000 - totalBirres;
 
-        // Omplir les estadístiques a l'HTML
+        // Omplir estadístiques HTML
         document.getElementById('max-beers').innerText = maxBirres >= 0 ? maxBirres : 0;
         document.getElementById('max-date').innerText = beersData.length > 0 ? getThursdayDate(maxIndex) : '-';
         
@@ -229,59 +247,75 @@
             document.getElementById('min-date').innerText = '-';
         }
 
-        // Predicció
-        const remaining = 1000 - totalBirres;
-        const predText = document.getElementById('prediction-text');
-        
+        // Càlcul de la predicció i extensió del calendari
+        let weeksNeeded = 0;
+        let finalIndex = beersData.length - 1;
+
+        const predFalten = document.getElementById('pred-falten');
+        const predRitme = document.getElementById('pred-ritme');
+
         if (remaining <= 0) {
-            predText.innerHTML = "Ja heu arribat o superat les 1000 birres! Felicitats, repte aconseguit! 🍻🏆🎉";
+            predFalten.innerText = "Repte aconseguit! 🍻";
+            predFalten.style.color = "#2ecc71";
+            predRitme.innerText = `Heu aconseguit arribar a les 1000 birres en ${beersData.length} setmanes!`;
         } else if (avgBirres > 0) {
-            // Calculem quants dijous falten per arribar a 1000
-            const weeksNeeded = Math.ceil(remaining / avgBirres); 
-            const finalIndex = beersData.length + weeksNeeded - 1;
+            weeksNeeded = Math.ceil(remaining / avgBirres); 
+            finalIndex = beersData.length + weeksNeeded - 1;
             const finalDate = getThursdayDate(finalIndex);
             
-            // Càlcul de les birres exactes (amb decimals) per a l'últim dia
-            // Ens basem en el que ja haurem begut en les setmanes "senceres" abans de l'últim dia
-            const birresUltimDia = remaining - ((weeksNeeded - 1) * avgBirres);
-
-            predText.innerHTML = `
-                Falten ${remaining} birres per a la meta.<br><br>
-                Mantenint la mitjana de <strong>${avgBirres.toFixed(1)} birres/dijous</strong>, 
-                acabareu el repte el dijous <span class="highlight">${finalDate}</span>.<br><br>
-                Aquest últim dia haureu de beure exactament <span class="highlight">${birresUltimDia.toFixed(2)} birres</span> per clavar les 1000!
-            `;
+            predFalten.innerText = `Falten: ${remaining} birres`;
+            // Com que és el repte de les 1000, un cop acabat el dia final s'arriba exactament a aquest total mínim
+            predRitme.innerHTML = `Al ritme que anem, acabarem el: <strong>${finalDate}</strong>, fent <strong>1000</strong> birres en total.`;
         } else {
-            predText.innerHTML = "Beveu alguna birra per començar a fer estimacions!";
+            predFalten.innerText = "Falten: 1000 birres";
+            predRitme.innerText = "Comenceu a beure per calcular la predicció!";
         }
 
-        // ANIMACIÓ DEL CONTADOR + LOCALSTORAGE
+        // Preparar dades exteses per a les gràfiques (X-axis fins al final)
+        let labels = [];
+        let dailyData = [];
+        let cumulativeData = [];
+        let tempAcumulat = 0;
+
+        // Bucle des del dia 0 fins al dia final teòric (si encara no s'ha arribat)
+        const totalDiasGràfica = (remaining > 0 && avgBirres > 0) ? finalIndex + 1 : beersData.length;
+
+        for (let i = 0; i < totalDiasGràfica; i++) {
+            labels.push(getThursdayDate(i));
+            
+            if (i < beersData.length) {
+                // Dies reals
+                dailyData.push(beersData[i]);
+                tempAcumulat += beersData[i];
+                cumulativeData.push(tempAcumulat);
+            } else {
+                // Dies futurs: posem 'null' perquè no es dibuixi la línia però l'eix de temps sí que hi sigui
+                dailyData.push(null);
+                cumulativeData.push(null);
+            }
+        }
+
+        // ANIMACIÓ DEL CONTADOR AMB LOCALSTORAGE
         const counterEl = document.getElementById('total-counter');
         const storedTotal = localStorage.getItem('totalBirres');
         let startVal = 0;
 
-        // Si tenim dades i el total actual és superior, animem des del guardat fins l'actual
         if (storedTotal !== null && !isNaN(storedTotal)) {
             const parsedStored = parseInt(storedTotal, 10);
             if (parsedStored < totalBirres) {
                 startVal = parsedStored;
             } else {
-                startVal = totalBirres; // Si no hi ha increment, no animem
+                startVal = totalBirres; 
             }
         }
-        
-        // Guardem el nou total a l'storage
         localStorage.setItem('totalBirres', totalBirres);
 
-        // Funció per animar els números
-        const animDuration = 2000; // 2 segons
+        const animDuration = 2000;
         const startTime = performance.now();
 
         function animateCounter(currentTime) {
             const elapsed = currentTime - startTime;
             const progress = Math.min(elapsed / animDuration, 1);
-            
-            // Efecte easing (outQuad) perquè vagi frenant al final
             const easeOut = 1 - (1 - progress) * (1 - progress);
             const currentVal = Math.floor(startVal + (totalBirres - startVal) * easeOut);
             
@@ -294,78 +328,78 @@
             }
         }
 
-        // Només animem si hi ha hagut increment
         if (startVal < totalBirres) {
             requestAnimationFrame(animateCounter);
         } else {
             counterEl.innerText = totalBirres;
         }
 
-        // GRÀFIQUES AMB CHART.JS
-        const ctx = document.getElementById('birresChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: labels,
-                datasets: [
-                    {
-                        label: 'Birres del dia',
-                        data: beersData,
-                        backgroundColor: 'rgba(243, 156, 18, 0.7)',
-                        borderColor: 'rgba(243, 156, 18, 1)',
-                        borderWidth: 2,
-                        borderRadius: 4,
-                        yAxisID: 'y' // Eix esquerre
-                    },
-                    {
-                        label: 'Acumulat Total',
-                        data: cumulativeData,
-                        type: 'line',
-                        fill: false,
-                        borderColor: 'rgba(52, 152, 219, 1)',
-                        backgroundColor: 'rgba(52, 152, 219, 1)',
-                        borderWidth: 3,
-                        pointRadius: 5,
-                        pointBackgroundColor: '#fff',
-                        tension: 0.3,
-                        yAxisID: 'y1' // Eix dret
-                    }
-                ]
+        // CONFIGURACIÓ COMUNA PER LES GRÀFIQUES
+        const commonOptions = {
+            responsive: true,
+            spanGaps: false, // Això evita que Chart.js uneixi punts buits del futur
+            interaction: { mode: 'index', intersect: false },
+            scales: {
+                x: { 
+                    ticks: { color: '#aaaaaa', maxRotation: 45, minRotation: 45 },
+                    grid: { color: 'rgba(255,255,255,0.05)' } 
+                },
+                y: { 
+                    beginAtZero: true, 
+                    ticks: { color: '#aaaaaa' },
+                    grid: { color: 'rgba(255,255,255,0.1)' } 
+                }
             },
-            options: {
-                responsive: true,
-                interaction: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                scales: {
-                    y: {
-                        type: 'linear',
-                        display: true,
-                        position: 'left',
-                        title: { display: true, text: 'Birres diàries', color: '#aaaaaa' },
-                        ticks: { color: '#ffffff' },
-                        grid: { color: '#333' }
-                    },
-                    y1: {
-                        type: 'linear',
-                        display: true,
-                        position: 'right',
-                        title: { display: true, text: 'Total Acumulat', color: '#aaaaaa' },
-                        ticks: { color: '#ffffff' },
-                        grid: { drawOnChartArea: false } // Per no superposar línies de l'eix X
-                    },
-                    x: {
-                        ticks: { color: '#ffffff' },
-                        grid: { color: '#333' }
-                    }
-                },
-                plugins: {
-                    legend: {
-                        labels: { color: '#ffffff', font: { size: 14 } }
+            plugins: {
+                legend: { display: false }, // Ocultem la llegenda per estalviar espai a mòbil
+                tooltip: {
+                    callbacks: {
+                        label: function(context) {
+                            return ` ${context.parsed.y} birres`;
+                        }
                     }
                 }
             }
+        };
+
+        // Gràfica 1: Diària (Línia)
+        const ctxDaily = document.getElementById('dailyChart').getContext('2d');
+        new Chart(ctxDaily, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: dailyData,
+                    borderColor: '#f39c12',
+                    backgroundColor: 'rgba(243, 156, 18, 0.2)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#fff',
+                    pointRadius: 4,
+                    tension: 0.3,
+                    fill: true // Omple una mica per sota la línia per fer-ho més estètic
+                }]
+            },
+            options: commonOptions
+        });
+
+        // Gràfica 2: Acumulat (Línia)
+        const ctxCumulative = document.getElementById('cumulativeChart').getContext('2d');
+        new Chart(ctxCumulative, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    data: cumulativeData,
+                    borderColor: '#3498db',
+                    backgroundColor: 'rgba(52, 152, 219, 0.2)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#fff',
+                    pointRadius: 4,
+                    tension: 0.3,
+                    fill: true
+                }]
+            },
+            options: commonOptions
         });
     </script>
 </body>
