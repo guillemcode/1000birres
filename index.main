@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1000 Birres 🍻</title>
+    <!-- Importem la llibreria Chart.js per fer les gràfiques -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        /* ESTILS CSS (Mode fosc) */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px 10px;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 3.5em;
+            margin-top: 10px;
+            margin-bottom: 20px;
+            color: #f39c12; /* Color daurat/cervesa */
+        }
+
+        .hero-section {
+            margin: 40px 0;
+        }
+
+        .total-title {
+            font-size: 1.5em;
+            color: #aaaaaa;
+            letter-spacing: 3px;
+            font-weight: bold;
+            margin-bottom: -10px;
+        }
+
+        .total-number-container {
+            display: flex;
+            align-items: baseline;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .total-number {
+            font-size: 8em;
+            font-weight: bold;
+            color: #ffffff;
+            text-shadow: 0 0 15px rgba(243, 156, 18, 0.5);
+        }
+
+        .total-suffix {
+            font-size: 2.5em;
+            color: #f39c12;
+        }
+
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 50px;
+        }
+
+        .stat-box {
+            background: #1e1e1e;
+            padding: 25px 20px;
+            border-radius: 12px;
+            width: 260px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+            border-top: 4px solid #f39c12;
+        }
+
+        .stat-box h3 {
+            margin: 0 0 10px 0;
+            color: #aaaaaa;
+            font-size: 1.1em;
+            text-transform: uppercase;
+        }
+
+        .stat-box p {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        .stat-date {
+            font-size: 0.9em;
+            color: #888;
+            margin-top: 8px;
+            display: block;
+        }
+
+        .charts-container {
+            max-width: 900px;
+            margin: 0 auto 50px auto;
+            background: #1e1e1e;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+        }
+
+        .prediction-container {
+            margin: 50px auto;
+            padding: 30px;
+            background: #1a1a1a;
+            max-width: 800px;
+            border-radius: 12px;
+            border: 2px dashed #f39c12;
+        }
+
+        .prediction-container h2 {
+            margin-top: 0;
+            color: #f39c12;
+            font-size: 1.8em;
+        }
+
+        .prediction-text {
+            font-size: 1.2em;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+        
+        .highlight {
+            color: #f39c12;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>1000 birres 🍻</h1>
+
+    <div class="hero-section">
+        <div class="total-title">TOTAL</div>
+        <div class="total-number-container">
+            <div id="total-counter" class="total-number">0</div>
+            <div class="total-suffix">birres🍻</div>
+        </div>
+    </div>
+
+    <div class="stats-container">
+        <div class="stat-box">
+            <h3>Dia amb més birres 🏆</h3>
+            <p id="max-beers">0</p>
+            <span id="max-date" class="stat-date">-</span>
+        </div>
+        <div class="stat-box">
+            <h3>Mitjana per dijous 📊</h3>
+            <p id="avg-beers">0</p>
+            <span class="stat-date">birres / dia</span>
+        </div>
+        <div class="stat-box">
+            <h3>Dia amb menys birres 📉</h3>
+            <p id="min-beers">0</p>
+            <span id="min-date" class="stat-date">-</span>
+        </div>
+    </div>
+
+    <div class="charts-container">
+        <canvas id="birresChart"></canvas>
+    </div>
+
+    <div class="prediction-container">
+        <h2>Quan s'acaba el repte? ⏳</h2>
+        <div id="prediction-text" class="prediction-text">
+            Calculant dades...
+        </div>
+    </div>
+
+    <!-- LÒGICA JAVASCRIPT -->
+    <script>
+        // -------------------------------------------------------------
+        // AQUEST ÉS L'ARRAY QUE HAS D'ANAR ACTUALITZANT CADA DIJOUS
+        // -------------------------------------------------------------
+        const beersData = [45, 52]; // Ex: 45 el dia 3/09/2026, 52 el 10/09/2026.
+        
+        const START_DATE = new Date('2026-09-03T00:00:00');
+
+        // Funció per calcular la data de cada dijous sumant setmanes
+        function getThursdayDate(indexOffset) {
+            const d = new Date(START_DATE);
+            d.setDate(d.getDate() + (indexOffset * 7));
+            return d.toLocaleDateString('ca-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+        }
+
+        // Variables per als càlculs
+        let totalBirres = 0;
+        let maxBirres = -1;
+        let maxIndex = 0;
+        let minBirres = Infinity;
+        let minIndex = 0;
+        
+        let cumulativeData = [];
+        let labels = [];
+
+        // Processar dades
+        for (let i = 0; i < beersData.length; i++) {
+            const b = beersData[i];
+            totalBirres += b;
+            cumulativeData.push(totalBirres);
+            labels.push(getThursdayDate(i));
+
+            if (b > maxBirres) {
+                maxBirres = b;
+                maxIndex = i;
+            }
+            if (b > 0 && b < minBirres) {
+                minBirres = b;
+                minIndex = i;
+            }
+        }
+
+        const avgBirres = (totalBirres / beersData.length) || 0;
+
+        // Omplir les estadístiques a l'HTML
+        document.getElementById('max-beers').innerText = maxBirres >= 0 ? maxBirres : 0;
+        document.getElementById('max-date').innerText = beersData.length > 0 ? getThursdayDate(maxIndex) : '-';
+        
+        document.getElementById('avg-beers').innerText = avgBirres.toFixed(1);
+        
+        if (minBirres !== Infinity) {
+            document.getElementById('min-beers').innerText = minBirres;
+            document.getElementById('min-date').innerText = getThursdayDate(minIndex);
+        } else {
+            document.getElementById('min-beers').innerText = '0';
+            document.getElementById('min-date').innerText = '-';
+        }
+
+        // Predicció
+        const remaining = 1000 - totalBirres;
+        const predText = document.getElementById('prediction-text');
+        
+        if (remaining <= 0) {
+            predText.innerHTML = "Ja heu arribat o superat les 1000 birres! Felicitats, repte aconseguit! 🍻🏆🎉";
+        } else if (avgBirres > 0) {
+            // Calculem quants dijous falten per arribar a 1000
+            const weeksNeeded = Math.ceil(remaining / avgBirres); 
+            const finalIndex = beersData.length + weeksNeeded - 1;
+            const finalDate = getThursdayDate(finalIndex);
+            
+            // Càlcul de les birres exactes (amb decimals) per a l'últim dia
+            // Ens basem en el que ja haurem begut en les setmanes "senceres" abans de l'últim dia
+            const birresUltimDia = remaining - ((weeksNeeded - 1) * avgBirres);
+
+            predText.innerHTML = `
+                Falten ${remaining} birres per a la meta.<br><br>
+                Mantenint la mitjana de <strong>${avgBirres.toFixed(1)} birres/dijous</strong>, 
+                acabareu el repte el dijous <span class="highlight">${finalDate}</span>.<br><br>
+                Aquest últim dia haureu de beure exactament <span class="highlight">${birresUltimDia.toFixed(2)} birres</span> per clavar les 1000!
+            `;
+        } else {
+            predText.innerHTML = "Beveu alguna birra per començar a fer estimacions!";
+        }
+
+        // ANIMACIÓ DEL CONTADOR + LOCALSTORAGE
+        const counterEl = document.getElementById('total-counter');
+        const storedTotal = localStorage.getItem('totalBirres');
+        let startVal = 0;
+
+        // Si tenim dades i el total actual és superior, animem des del guardat fins l'actual
+        if (storedTotal !== null && !isNaN(storedTotal)) {
+            const parsedStored = parseInt(storedTotal, 10);
+            if (parsedStored < totalBirres) {
+                startVal = parsedStored;
+            } else {
+                startVal = totalBirres; // Si no hi ha increment, no animem
+            }
+        }
+        
+        // Guardem el nou total a l'storage
+        localStorage.setItem('totalBirres', totalBirres);
+
+        // Funció per animar els números
+        const animDuration = 2000; // 2 segons
+        const startTime = performance.now();
+
+        function animateCounter(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / animDuration, 1);
+            
+            // Efecte easing (outQuad) perquè vagi frenant al final
+            const easeOut = 1 - (1 - progress) * (1 - progress);
+            const currentVal = Math.floor(startVal + (totalBirres - startVal) * easeOut);
+            
+            counterEl.innerText = currentVal;
+            
+            if (progress < 1) {
+                requestAnimationFrame(animateCounter);
+            } else {
+                counterEl.innerText = totalBirres;
+            }
+        }
+
+        // Només animem si hi ha hagut increment
+        if (startVal < totalBirres) {
+            requestAnimationFrame(animateCounter);
+        } else {
+            counterEl.innerText = totalBirres;
+        }
+
+        // GRÀFIQUES AMB CHART.JS
+        const ctx = document.getElementById('birresChart').getContext('2d');
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [
+                    {
+                        label: 'Birres del dia',
+                        data: beersData,
+                        backgroundColor: 'rgba(243, 156, 18, 0.7)',
+                        borderColor: 'rgba(243, 156, 18, 1)',
+                        borderWidth: 2,
+                        borderRadius: 4,
+                        yAxisID: 'y' // Eix esquerre
+                    },
+                    {
+                        label: 'Acumulat Total',
+                        data: cumulativeData,
+                        type: 'line',
+                        fill: false,
+                        borderColor: 'rgba(52, 152, 219, 1)',
+                        backgroundColor: 'rgba(52, 152, 219, 1)',
+                        borderWidth: 3,
+                        pointRadius: 5,
+                        pointBackgroundColor: '#fff',
+                        tension: 0.3,
+                        yAxisID: 'y1' // Eix dret
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        display: true,
+                        position: 'left',
+                        title: { display: true, text: 'Birres diàries', color: '#aaaaaa' },
+                        ticks: { color: '#ffffff' },
+                        grid: { color: '#333' }
+                    },
+                    y1: {
+                        type: 'linear',
+                        display: true,
+                        position: 'right',
+                        title: { display: true, text: 'Total Acumulat', color: '#aaaaaa' },
+                        ticks: { color: '#ffffff' },
+                        grid: { drawOnChartArea: false } // Per no superposar línies de l'eix X
+                    },
+                    x: {
+                        ticks: { color: '#ffffff' },
+                        grid: { color: '#333' }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        labels: { color: '#ffffff', font: { size: 14 } }
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
