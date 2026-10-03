@@ -274,7 +274,8 @@
                     <th class="col-idx">#</th>
                     <th>Data</th>
                     <th>Birres 🍻</th>
-                    <th>Acumulat 📈</th>
+                    <th>Total</th>
+                    <th>%</th>
                 </tr>
             </thead>
             <tbody id="history-body">
@@ -309,7 +310,7 @@
         // Funció per calcular el color dinàmic segons la quantitat de birres (0 a 50)
         function getBeerColor(beers) {
             const minB = 0;
-            const maxB = Math.max(beersData);
+            const maxB = Math.max(...beersData);
             
             // Calculem el factor d'interpolació entre 0 i 1
             const t = Math.min(Math.max((beers - minB) / (maxB - minB), 0), 1);
@@ -427,7 +428,8 @@
                     <td class="col-idx">${i + 1}</td>
                     <td>${dateStr}</td>
                     <td style="color: ${beerColor}; font-weight: bold;">${currentBeers}</td>
-                    <td>${tempAcumulat} (${tempAcumulat/10}%)</td>
+                    <td>${tempAcumulat} </td>
+                    <td>${tempAcumulat/10}%</td>
                 `;
                 historyBody.appendChild(row);
             } else {
