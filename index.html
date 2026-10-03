@@ -155,6 +155,55 @@
             color: #aaaaaa;
             font-size: 0.75em;
         }
+
+        /* Taula d'històric */
+        .table-wrapper {
+            background: #1e1e1e;
+            padding: 15px 10px;
+            border-radius: 8px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.5);
+        }
+
+        .table-wrapper h3 {
+            margin: 0 0 15px 0;
+            font-size: 1em;
+            color: #aaaaaa;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85em;
+        }
+
+        th {
+            background-color: #2a2a2a;
+            color: #f39c12;
+            padding: 10px 6px;
+            border-bottom: 2px solid #333;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        td {
+            padding: 10px 6px;
+            border-bottom: 1px solid #2a2a2a;
+            text-align: center;
+            color: #e0e0e0;
+        }
+
+        tr:nth-child(even) {
+            background-color: rgba(255, 255, 255, 0.02);
+        }
+
+        /* Destacar l'última fila (últim dijous begut) */
+        tr:last-child td {
+            border-bottom: none;
+            font-weight: bold;
+            color: #f39c12;
+        }
     </style>
 </head>
 <body>
@@ -212,6 +261,23 @@
         </div>
     </div>
 
+    <!-- Taula d'Històric -->
+    <div class="table-wrapper">
+        <h3>Registre de Dijous 📋</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Setmana / Data</th>
+                    <th>Birres 🍻</th>
+                    <th>Acumulat 📈</th>
+                </tr>
+            </thead>
+            <tbody id="history-body">
+                <!-- Es generen les files dinàmicament -->
+            </tbody>
+        </table>
+    </div>
+
     <div class="final-text">
         Aquesta web és propietat de Guillem Coderch. Qualsevol ús indegut serà sancionat pel decret llei 13.12 subsecció 4.20 i mogudes d'aquestes de copyright®.
     </div>
@@ -225,7 +291,7 @@
         // -------------------------------------------------------------
         // ARRAY PER ACTUALITZAR (Afegir les birres separades per comes)
         // -------------------------------------------------------------
-        const beersData = [29, 32, 28, 11]; 
+        const beersData = [29, 32, 28, 11, 33]; 
         
         const START_DATE = new Date('2026-09-03T00:00:00');
 
@@ -315,17 +381,30 @@
 
         const totalDiasGràfica = beersData.length;
 
+        // Generació de dades per les gràfiques i omplir la taula d'històric
+        const historyBody = document.getElementById('history-body');
+
         for (let i = 0; i < totalDiasGràfica; i++) {
-            labels.push(getThursdayDate(i));
+            const dateStr = getThursdayDate(i);
+            labels.push(dateStr);
             
-            // Omplim les línies de referència amb els valors fixos per a cada punt
             avgData.push(avgBirres);
             goalData.push(1000);
             
             if (i < beersData.length) {
-                dailyData.push(beersData[i]);
-                tempAcumulat += beersData[i];
+                const currentBeers = beersData[i];
+                dailyData.push(currentBeers);
+                tempAcumulat += currentBeers;
                 cumulativeData.push(tempAcumulat);
+
+                // Afegir fila a la taula
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>S${i + 1} (${dateStr})</td>
+                    <td>${currentBeers}</td>
+                    <td>${tempAcumulat}</td>
+                `;
+                historyBody.appendChild(row);
             } else {
                 dailyData.push(null);
                 cumulativeData.push(null);
