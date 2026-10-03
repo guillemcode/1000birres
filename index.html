@@ -159,7 +159,7 @@
         /* Taula d'històric */
         .table-wrapper {
             background: #1e1e1e;
-            padding: 15px 10px;
+            padding: 15px 8px;
             border-radius: 8px;
             margin-bottom: 40px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.5);
@@ -181,28 +181,32 @@
         th {
             background-color: #2a2a2a;
             color: #f39c12;
-            padding: 10px 6px;
+            padding: 10px 4px;
             border-bottom: 2px solid #333;
             font-weight: bold;
             text-align: center;
         }
 
         td {
-            padding: 10px 6px;
+            padding: 10px 4px;
             border-bottom: 1px solid #2a2a2a;
             text-align: center;
             color: #e0e0e0;
+        }
+
+        /* Estil per a la columna d'índex estreta */
+        th.col-idx, td.col-idx {
+            width: 25px;
+            color: #777777;
+            font-weight: bold;
         }
 
         tr:nth-child(even) {
             background-color: rgba(255, 255, 255, 0.02);
         }
 
-        /* Destacar l'última fila (últim dijous begut) */
         tr:last-child td {
             border-bottom: none;
-            font-weight: bold;
-            color: #f39c12;
         }
     </style>
 </head>
@@ -267,7 +271,8 @@
         <table>
             <thead>
                 <tr>
-                    <th>Setmana / Data</th>
+                    <th class="col-idx">#</th>
+                    <th>Data</th>
                     <th>Birres 🍻</th>
                     <th>Acumulat 📈</th>
                 </tr>
@@ -397,11 +402,15 @@
                 tempAcumulat += currentBeers;
                 cumulativeData.push(tempAcumulat);
 
-                // Afegir fila a la taula
+                // Calculem el color segons les birres del dia
+                const beerColor = getBeerColor(currentBeers);
+
+                // Afegir fila a la taula amb columna d'índex i color dinàmic
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>S${i + 1} (${dateStr})</td>
-                    <td>${currentBeers}</td>
+                    <td class="col-idx">${i + 1}</td>
+                    <td>${dateStr}</td>
+                    <td style="color: ${beerColor}; font-weight: bold;">${currentBeers}</td>
                     <td>${tempAcumulat}</td>
                 `;
                 historyBody.appendChild(row);
