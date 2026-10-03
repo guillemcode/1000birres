@@ -267,7 +267,7 @@
 
     <!-- Taula d'Històric -->
     <div class="table-wrapper">
-        <h3>Registre de Dijous 📋</h3>
+        <h3>Registre</h3>
         <table>
             <thead>
                 <tr>
@@ -309,7 +309,7 @@
         // Funció per calcular el color dinàmic segons la quantitat de birres (0 a 50)
         function getBeerColor(beers) {
             const minB = 0;
-            const maxB = 50; // Amb 50 birres o més s'arriba al groc/daurat màxim (#f39c12)
+            const maxB = Math.max(beersData);
             
             // Calculem el factor d'interpolació entre 0 i 1
             const t = Math.min(Math.max((beers - minB) / (maxB - minB), 0), 1);
@@ -427,7 +427,7 @@
                     <td class="col-idx">${i + 1}</td>
                     <td>${dateStr}</td>
                     <td style="color: ${beerColor}; font-weight: bold;">${currentBeers}</td>
-                    <td>${tempAcumulat}</td>
+                    <td>${tempAcumulat} (${tempAcumulat/10}%)</td>
                 `;
                 historyBody.appendChild(row);
             } else {
