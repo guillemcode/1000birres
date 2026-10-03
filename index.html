@@ -309,7 +309,7 @@
 
         // Funció per calcular el color dinàmic segons la quantitat de birres (0 a 50)
         function getBeerColor(beers) {
-            const minB = 0;
+            const minB = Math.min(...beersData);
             const maxB = Math.max(...beersData);
             
             // Calculem el factor d'interpolació entre 0 i 1
