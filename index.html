@@ -284,6 +284,12 @@
         </table>
     </div>
 
+    <!-- Birres en emojis -->
+    <div class="table-wrapper">
+        <h3>Visualització de les birres fetes:</h3>
+        <div id="birres-emoji"></div>
+    </div>
+
     <div class="final-text">
         Aquesta web és propietat de Guillem Coderch. Qualsevol ús indegut serà sancionat pel decret llei 13.12 subsecció 4.20 i mogudes d'aquestes de copyright®.
     </div>
@@ -389,6 +395,12 @@
             predFalten.innerText = "Falten: 1000 birres";
             predRitme.innerText = "Comenceu a beure per calcular la predicció!";
         }
+
+        // Emoji birres totals
+
+        const emojiBirres = document.getElementById('birres-emoji');
+
+        emojiBirres.innerText = '🍺'.repeat(totalBirres);
 
         // Preparar dades exteses per a les gràfiques (X-axis fins al final)
         let labels = [];
